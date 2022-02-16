@@ -4,7 +4,7 @@ import { Form, Input, Grid, Message } from 'semantic-ui-react'
 
 // Pre-built Substrate front-end utilities for connecting to a node
 // and making a transaction.
-import { useSubstrate } from './substrate-lib'
+import { useSubstrateState } from './substrate-lib'
 import { TxButton } from './substrate-lib/components'
 
 // Polkadot-JS utilities for hashing data.
@@ -13,7 +13,7 @@ import { blake2AsHex } from '@polkadot/util-crypto'
 // Main Proof Of Existence component is exported.
 export function Main(props) {
   // Establish an API to talk to the Substrate node.
-  const { api } = useSubstrate()
+  const { api } = useSubstrateState()
   // Get the selected user from the `AccountSelector` component.
   const { accountPair } = props
   // React hooks for all the state variables we track.
@@ -129,7 +129,7 @@ export function Main(props) {
 }
 
 export default function TemplateModule(props) {
-  const { api } = useSubstrate()
+  const { api } = useSubstrateState()
   return api.query.templateModule && api.query.templateModule.proofs ? (
     <Main {...props} />
   ) : null
