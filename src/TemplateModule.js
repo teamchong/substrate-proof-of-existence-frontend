@@ -13,9 +13,8 @@ import { blake2AsHex } from '@polkadot/util-crypto'
 // Main Proof Of Existence component is exported.
 export function Main(props) {
   // Establish an API to talk to the Substrate node.
-  const { api } = useSubstrateState()
-  // Get the selected user from the `AccountSelector` component.
-  const { accountPair } = props
+  // currentAccount: Get the selected user from the `AccountSelector` component.
+  const { api, currentAccount } = useSubstrateState()
   // React hooks for all the state variables we track.
   // Learn more at: https://reactjs.org/docs/hooks-intro.html
   const [status, setStatus] = useState('')
@@ -94,7 +93,6 @@ export function Main(props) {
         <Form.Field>
           {/* Button to create a claim. Only active if a file is selected, and not already claimed. Updates the `status`. */}
           <TxButton
-            accountPair={accountPair}
             label={'Create Claim'}
             setStatus={setStatus}
             type="SIGNED-TX"
@@ -108,11 +106,10 @@ export function Main(props) {
           />
           {/* Button to revoke a claim. Only active if a file is selected, and is already claimed. Updates the `status`. */}
           <TxButton
-            accountPair={accountPair}
             label="Revoke Claim"
             setStatus={setStatus}
             type="SIGNED-TX"
-            disabled={!isClaimed() || owner !== accountPair.address}
+            disabled={!isClaimed() || owner !== currentAccount.address}
             attrs={{
               palletRpc: 'templateModule',
               callable: 'revokeClaim',
